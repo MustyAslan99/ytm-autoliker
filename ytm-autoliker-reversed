@@ -1,0 +1,24 @@
+const songs = document.getElementsByTagName("ytmusic-responsive-list-item-renderer");
+
+console.log(`Found ${songs.length} songs.`);
+
+let i = 1;
+// Go through songs in reverse order
+Array.from(songs).reverse().forEach((song, index) => {
+    setTimeout(() => {
+        const likeButton = song.querySelector("button[aria-label='Like']");
+        const songInfo = song.getElementsByTagName('a'); // 0 == Song Title, 1 == Artist, 2 == Album
+
+        console.log(i, songInfo[1]?.innerHTML, "-", songInfo[0]?.innerHTML, "- isLiked:", likeButton?.getAttribute("aria-pressed"));
+
+        if (likeButton && likeButton.getAttribute("aria-pressed") === "false") {
+            likeButton.click();
+            console.log("liked");
+        }
+
+        i++;
+        if (i > songs.length) {
+            console.log("------------ COMPLETE ------------");
+        }
+    }, index * 1000); // delay to avoid spamming clicks too fast
+});
